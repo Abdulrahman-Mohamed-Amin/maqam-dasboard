@@ -1,0 +1,61 @@
+<div class="edit-page mt-4">
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="crumbs">لوحة التحكم <span>›</span> تعديل خدمة</div>
+    <button class="main_button_outline" routerLink="/dashboard/show_services">عرض الخدمات</button>
+  </div>
+
+  <h3 class="text-center mb-4">تعديل خدمة</h3>
+
+
+  <div class="d-flex align-items-center ">
+    <form id="editForm" class="card" [formGroup]="editForm" (ngSubmit)="submit()">
+      <div class="row g-3">
+        <!-- ✅ االاسم  -->
+
+        <div class="col-12 col-lg-6">
+          <label class="form-label">اسم الخدمة <span>*</span></label>
+          <input type="text" class="form-control" formControlName="arTitle"
+            [class.invalid]="(submitted && editForm.get('arTitle')?.invalid) && editForm.get('arTitle')?.touched">
+          @if(editForm.get('arTitle')?.errors?.['pattern']){
+          <div class="error">لغة الادخال الصحيحة هي العربية</div>
+          }
+        </div>
+
+
+
+        <div class="col-6">
+          <div class="mb-3">
+            <label for="imageFile" class="form-label">صورة للخدمة <span>*</span></label>
+            <input type="file" class="form-control " id="imageFile"
+              [class.invalid]="(submitted && editForm.get('imageFile')?.invalid)" accept="image/*"
+              (change)="onImagesSelected($event)" formControlName="imageFile">
+          </div>
+        </div>
+
+
+        <!-- ✅ وصف الخدمة -->
+
+        <div class="col-12 ">
+          <label class="form-label">وصف الخدمة <span>*</span></label>
+          <textarea rows="4" class="form-control" formControlName="arDescription"
+            [class.invalid]="(submitted && editForm.get('arDescription')?.invalid) && editForm.get('arDescription')?.touched"></textarea>
+          @if(editForm.get('arDescription')?.errors?.['pattern']){
+          <div class="error">لغة الادخال الصحيحة هي العربية</div>
+          }
+        </div>
+
+
+
+
+      </div>
+
+      <button class="btn main_button mt-3" type="submit" form="editForm">
+        ارسال
+      </button>
+    </form>
+
+
+
+  </div>
+</div>

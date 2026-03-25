@@ -1,0 +1,69 @@
+<div class="container-fluid mt-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <div class="crumbs">لوحة التحكم <span>›</span> اضافة خبر </div>
+        <button class="main_button_outline" routerLink="/dashboard/show_news">عرض الأخبار</button>
+
+    </div>
+
+    <h3 class="text-center mt-5">اضافة خبر </h3>
+    <form [formGroup]="editForm" (ngSubmit)="submit()">
+        <div class="row p-3 ">
+
+            <div class="col-6">
+                <div class="mb-3">
+                    <label for="arTitle" class="form-label">اسم الخبر <span>*</span></label>
+                    <input type="text" class="form-control" id="arTitle" formControlName="arTitle"
+                        [class.invalid]="(submitted && editForm.get('arTitle')?.invalid) && editForm.get('arTitle')?.touched">
+                    @if(editForm.get('arTitle')?.errors?.['pattern']){
+
+                    <div class="error">لغة الادخال الصحيحة هي العربية</div>
+                    }
+                </div>
+            </div>
+
+
+            <!-- ==================== الوصف ================== -->
+
+            <div class="col-6">
+                <div class="mb-3">
+                    <label for="arDescription" class="form-label">وصف الخبر <span>*</span></label>
+                    <input type="text" class="form-control" id="arDescription" formControlName="arDescription"
+                        [class.invalid]="(submitted && editForm.get('arDescription')?.invalid) && editForm.get('arDescription')?.touched">
+                    @if(editForm.get('arDescription')?.errors?.['pattern']){
+
+                    <div class="error">لغة الادخال الصحيحة هي العربية</div>
+                    }
+                </div>
+            </div>
+
+
+
+            <!-- ================== التاريخ ================= -->
+
+            <div class="col-6">
+                <div class="mb-3">
+                    <label for="date" class="form-label">التاريخ<span>*</span></label>
+                    <input type="date" class="form-control " id="date" formControlName="date"
+                        [class.invalid]="(submitted && editForm.get('date')?.invalid) && editForm.get('date')?.touched">
+
+                </div>
+            </div>
+
+
+
+            <!-- ==================  صورة الخبر ================= -->
+
+            <div class="col-6">
+                <div class="mb-3">
+                    <label for="interfaceImageFile" class="form-label">صورة للخبر <span>*</span></label>
+                    <input type="file" class="form-control " id="interfaceImageFile"
+                        [class.invalid]="(submitted && editForm.get('interfaceImageFile')?.invalid)" accept="image/*"
+                        (change)="onImagesSelected($event)" formControlName="interfaceImageFile">
+                </div>
+            </div>
+        </div>
+
+        <button class="main_button ">ارسال</button>
+
+    </form>
+</div>

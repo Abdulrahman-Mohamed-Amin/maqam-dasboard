@@ -1,0 +1,131 @@
+<div class="container-fluid position-relative  pt-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <div class="crumbs">لوحة التحكم <span>›</span> اضافة مشروع </div>
+        <button class="main_button_outline" routerLink="/dashboard/show_projects"> عرض
+            المشاريع</button>
+    </div>
+
+    <form [formGroup]="addForm" (ngSubmit)="submit()">
+
+        <div class="row p-5 ">
+
+            <!-- ====================== اسم المشروع ====================== -->
+
+            <div class="col-6">
+                <div class="mb-3">
+                    <label for="name" class="form-label">اسم المشروع <span>*</span></label>
+                    <input type="text" class="form-control" id="name" formControlName="arTitle"
+                        [class.invalid]="(submitted && addForm.get('arTitle')?.invalid) ">
+                    @if(addForm.get('arTitle')?.errors?.['pattern']){
+                    <div class="error">لغة الادخال الصحيحة هي العربية</div>
+                    }
+                </div>
+            </div>
+
+
+            <!-- ====================== hsl hguldg ====================== -->
+
+            <div class="col-6">
+                <div class="mb-3">
+                    <label for="clientName" class="form-label">اسم العميل <span>*</span></label>
+                    <input type="text" class="form-control" id="clientName" formControlName="clientName"
+                        [class.invalid]="(submitted && addForm.get('clientName')?.invalid)">
+                    @if(addForm.get('clientName')?.errors?.['pattern']){
+                    <div class="error">لغة الادخال الصحيحة هي العربية</div>
+                    }
+                </div>
+            </div>
+
+
+
+            <!-- ========================= قيمة المشروع ======================= -->
+
+            <div class="col-6">
+                <div class="mb-3">
+                    <label for="value" class="form-label">قيمة المشروع <span>*</span></label>
+                    <input type="text" class="form-control" id="value" formControlName="value"
+                        [class.invalid]="(submitted && addForm.get('value')?.invalid)">
+                </div>
+            </div>
+
+            <!-- ========================= نوع المشروع ======================= -->
+
+            <div class="col-6">
+                <div class="mb-3">
+                    <label for="projectCategory" class="form-label">نوع المشروع <span>*</span></label>
+
+                    <select name="" id="" formControlName="projectCategory" class="form-select"
+                        [class.invalid]="(submitted && addForm.get('projectCategory')?.invalid) ">
+                        <option value=""  selected disabled hidden>اختر</option>
+                        <option value="1">عمارة سكنية</option>
+                        <option value="2">مجمع سكني</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- ========================= تاريخ البداية المشروع ======================= -->
+
+            <div class="col-6">
+                <div class="mb-3">
+                    <label for="fromDate" class="form-label">تاريخ بداية المشروع <span>*</span></label>
+                    <input type="date" class="form-control" id="fromDate" formControlName="fromDate"
+                        [class.invalid]="(submitted && addForm.get('fromDate')?.invalid)">
+                </div>
+            </div>
+
+            <!-- ========================= تاريخ النهاية المشروع ======================= -->
+
+            <div class="col-6">
+                <div class="mb-3">
+                    <label for="toDate" class="form-label">تاريخ نهاية المشروع <span>*</span></label>
+                    <input type="date" class="form-control" id="toDate" formControlName="toDate"
+                        [class.invalid]="(submitted && addForm.get('toDate')?.invalid)">
+                </div>
+            </div>
+
+
+
+
+            <!-- ========================= صورة الواجهة الرئيسية للمشروع ======================= -->
+
+            <div class="col-6">
+                <div class="mb-3">
+                    <label for="name" class="form-label">صورة الواجهة الرئيسية للمشروع <span>*</span></label>
+                    <input type="file" accept="image/*" class="form-control" formControlName="interfaceImageFile"
+                        (change)="onInterfaceImageChange($event)">
+                </div>
+            </div>
+
+            <!-- ========================= صور للمشروع ======================= -->
+
+            <div class="col-6">
+                <div class="mb-3">
+                    <label for="imageFiles" class="form-label">صور للمشروع <span>*</span></label>
+                    <input type="file" accept="image/*" class="form-control" formControlName="imageFiles" multiple
+                        (change)="onImagesSelected($event)">
+                </div>
+            </div>
+
+
+            <!-- وصف المشروع  -->
+
+            <div class="col-12">
+                <div class="mb-3">
+                    <label for="arDescription" class="form-label">وصف المشروع <span>*</span></label>
+                    <textarea formControlName="arDescription"
+                        [class.invalid]="(submitted && addForm.get('arDescription')?.invalid)"
+                        class="form-control"></textarea>
+                    @if(addForm.get('arDescription')?.errors?.['pattern']){
+                    <div class="error">لغة الادخال الصحيحة هي العربية</div>
+                    }
+                </div>
+            </div>
+
+        </div>
+        <button class="main_button">ارسال</button>
+
+    </form>
+
+
+
+</div>

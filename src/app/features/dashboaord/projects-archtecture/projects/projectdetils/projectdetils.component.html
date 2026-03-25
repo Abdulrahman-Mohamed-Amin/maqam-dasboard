@@ -1,0 +1,107 @@
+<section class="page">
+
+ 
+  <header class="project-header mt-4">
+
+    <!-- RIGHT: Project Info -->
+    <div class="ph-right">
+
+      <div class="breadcrumbs">
+        <span>لوحة التحكم</span>
+        <span class="dot">•</span>
+        <span>المشاريع</span>
+        <span class="dot">•</span>
+        <span class="current">تفاصيل المشروع</span>
+      </div>
+
+      <h1 class="project-title">{{ project?.arTitle }}</h1>
+      <p class="project-desc">{{ project?.clientName }}</p>
+      <p class="project-desc">{{ project?.arDescription }}</p>
+
+      <!-- Project Meta -->
+      <div class="project-meta">
+
+        <div class="meta-grid">
+
+
+          <div class="meta-card">
+            <div class="m-label">تصنيف المشروع</div>
+            <div class="m-value">{{ project?.arProjectCategory }}</div>
+          </div>
+
+          <div class="meta-card">
+            <div class="m-label">تاريخ بداية المشروع</div>
+            <div class="m-value">{{ project?.fromDate }}</div>
+          </div>
+
+          <div class="meta-card">
+            <div class="m-label">تاريخ نهاية المشروع</div>
+            <div class="m-value">{{ project?.toDate }}</div>
+          </div>
+
+
+
+        </div>
+      </div>
+
+
+      <!-- Actions -->
+      <div class="header-actions mt-3">
+        <button class="btn btn-ghost" type="button" [routerLink]="['/dashboard/edit_project' , project?.id]">
+          تعديل المشروع
+        </button>
+        <button class="btn btn-ghost danger" type="button" (click)="deleteProject()">
+          حذف المشروع
+        </button>
+      </div>
+
+    </div>
+
+    <!-- LEFT: Media -->
+    <div class="ph-left">
+      <div class="media-card">
+
+        <!-- Facade -->
+        <div class="media-hero">
+          @if (project?.interfaceImagePath) {
+          <img [src]="url + project?.interfaceImagePath" alt="واجهة المشروع" />
+          <span class="media-badge">واجهة المشروع</span>
+          } @else {
+          <div class="media-empty">
+            <span class="icon">🏢</span>
+            <span>لا توجد صورة واجهة</span>
+          </div>
+          }
+        </div>
+
+        <!-- Gallery -->
+        <div class="thumbs">
+          <div class="thumbs-head">
+            <div class="thumbs-title">صور المشروع</div>
+            <div class="thumbs-count">{{ project?.projectImages?.length || 0 }}</div>
+          </div>
+
+          @if (project?.projectImages?.length) {
+          <div class="thumbs-row">
+            @for (img of project?.projectImages; track $index) {
+            <div class="thumb">
+              <img [src]="url + img" alt="صورة المشروع" />
+            </div>
+            }
+          </div>
+          } @else {
+          <div class="thumbs-empty">
+            <span>🖼️ لا توجد صور</span>
+          </div>
+          }
+        </div>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+
+</section>
