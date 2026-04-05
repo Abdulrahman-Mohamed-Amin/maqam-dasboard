@@ -5,6 +5,8 @@ import { ProjectsService } from '../../../../../core/services/projects/projects.
 import { AlertsService } from '../../../../../core/services/alerts/alerts.service';
 import { environment } from '../../../../../../environments/environment';
 import { CommonModule } from "@angular/common";
+import { OurServiceService } from '../../../../../core/services/our-services/our-service.service';
+import { Service } from '../../../../../core/interfaces/service/service';
 
 @Component({
   selector: 'app-edit-projects',
@@ -15,6 +17,9 @@ import { CommonModule } from "@angular/common";
 })
 export class EditProjectsComponent implements OnInit {
   submitted = false;
+  services: Service[] = []
+  selectedValues: string[] = [];
+  cheeckValues: number[] = [];
 
   project: any | null = null;
   curuentId: number = 0
@@ -50,20 +55,33 @@ export class EditProjectsComponent implements OnInit {
     interfaceImageFile: new FormControl(null),
     projectCategory: new FormControl(null),
     ImagesToDelete: new FormControl(null),
+    serviceIds: new FormControl(null),
 
   });
 
-  constructor(private _project: ProjectsService, private alert: AlertsService, private _route: ActivatedRoute) { }
+  constructor(private _project: ProjectsService, private alert: AlertsService, private _route: ActivatedRoute, private _service: OurServiceService) { }
 
   ngOnInit(): void {
     this.curuentId = +this._route.snapshot.params['id']
+    this.getServices()
     this.getProject()
+
   }
 
+
+
+  getServices() {
+    this._service.getService().subscribe(res => {
+      this.services = res
+    })
+  }
   getProject() {
     this._project.getById(this.curuentId).subscribe(res => {
       this.project = res
-
+      this.cheeckValues = res.serviceIds
+      this.selectedValues = res.serviceIds.map((s:string )=> s.toString())
+      console.log(res);
+      
       this.editForm.patchValue({
         arTitle: this.project.arTitle,
         enTitle: this.project.enTitle,
@@ -96,7 +114,7 @@ export class EditProjectsComponent implements OnInit {
     formData.append('fromDate', this.editForm.value.fromDate)
     formData.append('toDate', this.editForm.value.toDate)
     formData.append('projectCategory', this.editForm.value.projectCategory)
-    
+
 
     if (this.interfaceImageFile instanceof File) {
       formData.append('interfaceImageFile', this.interfaceImageFile);
@@ -114,6 +132,12 @@ export class EditProjectsComponent implements OnInit {
       });
     }
 
+    if (this.selectedValues.length > 0) {
+      this.selectedValues.forEach((v) => {
+        formData.append('serviceIds', v);
+      });
+    }
+
     if (this.editForm.valid) {
       this._project.edit(this.curuentId, formData).subscribe({
         next: (res) => {
@@ -121,10 +145,10 @@ export class EditProjectsComponent implements OnInit {
           this.alert.toaster("تم تعديل المشروع بنجاح", 'success')
 
           this.interfaceImageFile = null;
-  
+
           this.imageFiles = [];
           this.submitted = false
-
+          
         },
         error: () => {
           this.alert.toaster('حدث خطأ أثناء التحديث', "error");
@@ -168,12 +192,9 @@ export class EditProjectsComponent implements OnInit {
 
     }
 
-    console.log(this.interFcaeImgDelete);
+
 
   }
-
-
-
 
 
 
@@ -193,5 +214,25 @@ export class EditProjectsComponent implements OnInit {
   }
 
 
+
+
+  onChange(event: any) {
+    const value = event.target.value;
+    const isChecked = event.target.checked;
+
+    if (isChecked) {
+      // إضافة القيمة لو مش موجودة
+      if (!this.selectedValues.includes(value)) {
+        this.selectedValues.push(value);
+      }
+    } else {
+      // حذف القيمة
+      this.selectedValues = this.selectedValues.filter(v => v !== value);
+    }
+
+    console.log(this.selectedValues);
+    
+
+  }
 
 }

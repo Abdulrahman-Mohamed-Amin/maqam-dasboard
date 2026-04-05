@@ -42,6 +42,16 @@
 
 
         </div>
+
+        <div class="services">
+          <h3>الخدمات المقدمة في المشروع</h3>
+          <div class="d-flex align-items-center gap-2">
+            @for(s of project?.services ; track $index){
+              <span>{{s.arTitle}}</span>
+            }
+          </div>
+        </div>
+        
       </div>
 
 

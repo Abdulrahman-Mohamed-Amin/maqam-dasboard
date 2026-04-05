@@ -1,8 +1,8 @@
 <div class="container-fluid position-relative  pt-4">
     <div class="d-flex justify-content-between align-items-center">
         <div class="crumbs">لوحة التحكم <span>›</span> تعديل مشروع </div>
-        <button class="main_button_outline" routerLink="/dashboard/show_projects"> عرض
-            المشاريع</button>
+        <button class="main_button_outline" [routerLink]="['/dashboard/project_detils' , curuentId]"> عرض
+            المشروع</button>
     </div>
 
     <form [formGroup]="editForm" (ngSubmit)="submit()">
@@ -35,8 +35,6 @@
                 </div>
             </div>
 
-
-
             <!-- ========================= قيمة المشروع ======================= -->
 
             <div class="col-6">
@@ -54,13 +52,13 @@
                     <label for="projectCategory" class="form-label">نوع المشروع <span>*</span></label>
 
 
-                        <select name="" id="" formControlName="projectCategory" class="form-select">
-                            <option value="1">عمارة سكنية</option>
-                            <option value="2">مجمع سكني</option>
-                        </select>
+                    <select name="" id="" formControlName="projectCategory" class="form-select">
+                        <option value="1">عمارة سكنية</option>
+                        <option value="2">مجمع سكني</option>
+                    </select>
                 </div>
             </div>
-            
+
             <!-- ========================= تاريخ البداية المشروع ======================= -->
 
             <div class="col-6">
@@ -80,9 +78,6 @@
                         [class.invalid]="(submitted && editForm.get('toDate')?.invalid) && editForm.get('toDate')?.touched">
                 </div>
             </div>
-
-
-
 
             <!-- ========================= صورة الواجهة الرئيسية للمشروع ======================= -->
 
@@ -119,6 +114,23 @@
                 </div>
             </div>
 
+            <div class="col-12">
+                <div class="mb-3 ">
+                    <label for="arDescription" class="form-label">الخدمات المقدمة فالمشروع <span>*</span></label>
+
+                    <div class="services d-flex align-items-center gap-3">
+                        @for(s of services ; track $index){
+
+                        <div class="serv d-flex gap-2">
+                            <input type="checkbox" [value]="s.id" (change)="onChange($event)" class="checkbox"
+                                [checked]="cheeckValues.includes(s.id)">
+                            <label for="">{{s.arTitle}}</label>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
         </div>
         <button class="main_button">ارسال</button>
 
@@ -129,38 +141,36 @@
 </div>
 
 
-    <section class="gallery-wrap mt-5">
+<section class="gallery-wrap mt-5">
 
-        <header class="gallery-head">
-            <div class="title">
-                <h3>صور المشروع</h3>
-                <p>اضغط على الصورة لتحديدها للحذف. الصور المحددة ستظهر بإطار أحمر.</p>
-            </div>
-
-            <div class="legend">
-                <span class="dot normal"></span><span>عادي</span>
-                <span class="dot selected"></span><span>محدد للحذف</span>
-            </div>
-        </header>
-
-        <!-- Grid -->
-        <div class="gallery-grid">
-            <!-- صورة عادية -->
-            @if(project?.projectImages?.length){
-
-            @for(img of (project?.projectImages ?? []); track $index){
-            <button type="button" class="img-tile" (click)="deletImgs(img)"
-                [ngClass]="{'is-selected': imgsTodelet.includes(img)}">
-                <img [src]="imgUrl + img" alt="Project image">
-                <span class="badge">{{$index + 1}}</span>
-                <span class="hint">اضغط للتحديد</span>
-            </button>
-            }
-            }
-
-
+    <header class="gallery-head">
+        <div class="title">
+            <h3>صور المشروع</h3>
+            <p>اضغط على الصورة لتحديدها للحذف. الصور المحددة ستظهر بإطار أحمر.</p>
         </div>
 
-    </section>
+        <div class="legend">
+            <span class="dot normal"></span><span>عادي</span>
+            <span class="dot selected"></span><span>محدد للحذف</span>
+        </div>
+    </header>
+
+    <!-- Grid -->
+    <div class="gallery-grid">
+        <!-- صورة عادية -->
+        @if(project?.projectImages?.length){
+
+        @for(img of (project?.projectImages ?? []); track $index){
+        <button type="button" class="img-tile" (click)="deletImgs(img)"
+            [ngClass]="{'is-selected': imgsTodelet.includes(img)}">
+            <img [src]="imgUrl + img" alt="Project image">
+            <span class="badge">{{$index + 1}}</span>
+            <span class="hint">اضغط للتحديد</span>
+        </button>
+        }
+        }
 
 
+    </div>
+
+</section>

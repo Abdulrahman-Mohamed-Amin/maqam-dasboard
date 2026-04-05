@@ -1,0 +1,90 @@
+/* قائمة المحادثات */
+.chat-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px;
+}
+
+.chat-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  transition: 0.2s;
+}
+
+.chat-card:hover {
+  transform: translateY(-3px);
+}
+
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.email {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: #555;
+}
+
+.last-message {
+  margin: 10px 0;
+  color: #444;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+button {
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.view-btn {
+  background: var(--primary);
+  color: white;
+}
+
+.delete-btn {
+  background: #ee5d53;
+  color: white;
+}
+
+/* الحالات */
+.date.far {
+  color: green;
+  width: fit-content;
+}
+
+.date.upcoming {
+  color: red;
+  font-weight: bold;
+  animation: flash 1s infinite alternate;
+}
+
+.date.past {
+  color: gray;
+  font-style: italic;
+}
+
+/* وميض الموعد القريب */
+@keyframes flash {
+  0% { opacity: 1; }
+  50% { opacity: 0.4; }
+  100% { opacity: 1; }
+}
+
+.soon-label {
+  font-weight: bold;
+  margin-left: 5px;
+  color: red;
+}

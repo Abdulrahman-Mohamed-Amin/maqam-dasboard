@@ -14,6 +14,9 @@ export class OurServiceService {
   getService(){
     return this.http.get<Service[]>(this.url)
   }
+  getServiceByid(id:number){
+    return this.http.get<Service>(this.url + '/' + id)
+  }
   addService(id:any){
     return this.http.post(this.url , id)
   }

@@ -13,6 +13,8 @@ import { DashComponent } from './features/dashboaord/dash/dash.component';
 import { LoginComponent } from './features/login/login.component';
 import { authGuard } from './core/gurades/auth.guard';
 import { ProjectdetilsComponent } from './features/dashboaord/projects-archtecture/projects/projectdetils/projectdetils.component';
+import { ShowRequestComponent } from './features/dashboaord/request/show-request/show-request.component';
+import { RequesDetilsComponent } from './features/dashboaord/request/reques-detils/reques-detils.component';
 
 
 export const routes: Routes = [
@@ -35,6 +37,9 @@ export const routes: Routes = [
             { path: 'add_new', component: AddNewComponent },
             { path: 'show_news', component: ShowNewsComponent },
             { path: 'edit_new/:id', component: EditNewComponent },
+
+            { path: 'requst', component: ShowRequestComponent },
+            { path: 'request/:id', component: RequesDetilsComponent },
 
 
         ]

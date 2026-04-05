@@ -1,0 +1,30 @@
+<div class="chat-list">
+
+    @for(r of requstes ; track $index){
+
+        <div class="chat-card" >
+          <div class="chat-header">
+            <div>
+              <h3>{{ r.name }}</h3>
+              <p class="email">{{ r.email }}</p>
+            </div>
+            <span 
+              class="date"
+              [ngClass]="getDateClass(r.availableDateTime)">
+              {{ r.availableDateTime  }}
+              <span *ngIf="isPast(r.availableDateTime)"> - موعد فائت</span>
+              <span *ngIf="isUpcoming(r.availableDateTime) && !isPast(r.availableDateTime)" class="soon-label"> - موعد قريب</span>
+            </span>
+          </div>
+      
+          <p class="last-message">
+            {{ r.notes }}
+          </p>
+      
+          <div class="actions">
+            <button class="view-btn" [routerLink]="['/dashboard/request' , r.id]">👁 عرض</button>
+            
+          </div>
+        </div>
+    }
+</div>

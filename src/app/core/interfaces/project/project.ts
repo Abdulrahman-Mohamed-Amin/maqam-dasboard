@@ -21,4 +21,6 @@ export interface Project {
   projectCategory: number;
   arProjectCategory:string ;
   enProjectCategory:string ;
+    serviceIds:number[],
+   services?: any[]; 
 }

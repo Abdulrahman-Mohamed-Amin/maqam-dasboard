@@ -5,6 +5,8 @@ import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angula
 import { ProjectsService } from '../../../../../core/services/projects/projects.service';
 import { AlertsService } from '../../../../../core/services/alerts/alerts.service';
 import { RouterLink, RouterModule } from "@angular/router";
+import { OurServiceService } from '../../../../../core/services/our-services/our-service.service';
+import { Service } from '../../../../../core/interfaces/service/service';
 
 @Component({
   selector: 'app-add-projects',
@@ -25,6 +27,8 @@ export class AddProjectsComponent implements OnInit {
 
   imgs: any[] = []
 
+  services:Service[] = []
+
 
   addForm: FormGroup = new FormGroup({
     arTitle: new FormControl('', [Validators.required, Validators.pattern(this.arabicPattern)]),
@@ -38,16 +42,22 @@ export class AddProjectsComponent implements OnInit {
     imageFiles: new FormControl([]),
     interfaceImageFile: new FormControl(null),
     projectCategory: new FormControl('' , Validators.required),
+    serviceIds: new FormControl([])
   }
 
   );
 
-  constructor(private _projects: ProjectsService, private alert: AlertsService) { }
+  constructor(private _projects: ProjectsService, private alert: AlertsService , private _service:OurServiceService)  { }
 
   ngOnInit(): void {
-    
+    this.getServices()
   }
 
+  getServices(){
+    this._service.getService().subscribe(res =>{
+      this.services = res
+    })
+  }
   add() {
     const formData = new FormData()
 
@@ -60,17 +70,24 @@ export class AddProjectsComponent implements OnInit {
     formData.append('fromDate', this.addForm.value.fromDate)
     formData.append('toDate', this.addForm.value.toDate)
     formData.append('projectCategory', this.addForm.value.projectCategory)
-
+    
     if (this.interfaceImageFile instanceof File) {
       formData.append('interfaceImageFile', this.interfaceImageFile);
     }
-
-
+    
+    
     if (this.imageFiles && this.imageFiles.length > 0) {
       this.imageFiles.forEach((img) => {
         formData.append('imageFiles', img);
       });
     }
+    
+    if (this.selectedValues.length > 0) {
+      this.selectedValues.forEach((v) => {
+        formData.append('serviceIds', v);
+      });
+    }
+
 
     if (this.addForm.valid) {
       this._projects.add(formData).subscribe({
@@ -80,7 +97,13 @@ export class AddProjectsComponent implements OnInit {
 
           this.interfaceImageFile = null;
           this.imageFiles = [];
+         let checkboxes = document.querySelectorAll<HTMLInputElement>(".checkbox")
 
+         checkboxes.forEach(c =>{
+            c.checked = false;
+         })
+         this.selectedValues = []
+          
         },
         error: () => {
           this.alert.toaster('حدث خطأ أثناء التحديث', "error");
@@ -124,10 +147,28 @@ export class AddProjectsComponent implements OnInit {
     const input = e.target as HTMLInputElement;
     this.interfaceImageFile = input.files?.[0] ?? null;
 
-    console.log('interfaceImageFile:', this.interfaceImageFile);
+  
   }
 
 
+selectedValues: string[] = [];
+
+onChange(event: any) {
+  const value = event.target.value;
+  const isChecked = event.target.checked;
+
+  if (isChecked) {
+    // إضافة القيمة لو مش موجودة
+    if (!this.selectedValues.includes(value)) {
+      this.selectedValues.push(value);
+    }
+  } else {
+    // حذف القيمة
+    this.selectedValues = this.selectedValues.filter(v => v !== value);
+  }
+
+
+}
 
 
 }
