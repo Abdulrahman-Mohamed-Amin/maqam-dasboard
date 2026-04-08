@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-add-new',
   standalone: true,
-  imports: [ReactiveFormsModule , RouterModule],
+  imports: [ReactiveFormsModule, RouterModule],
   templateUrl: './add-new.component.html',
   styleUrl: './add-new.component.css'
 })
@@ -16,14 +16,19 @@ export class AddNewComponent {
   arabicPattern = /^[\u0600-\u06FF0-9\u0660-\u0669\s"',.،_-]+$/;
   submitted = false;
 
+
+  addVideo: boolean = false
+  addImg: boolean = true
   imageFiles: File[] = [];
+  videoFile: File | null = null;
 
   addForm: FormGroup = new FormGroup({
     arTitle: new FormControl('', [Validators.required, Validators.pattern(this.arabicPattern)]),
     enTitle: new FormControl(''),
     arDescription: new FormControl('', [Validators.required, Validators.pattern(this.arabicPattern)]),
     enDescription: new FormControl(''),
-    interfaceImageFile: new FormControl([]),
+    imageFile: new FormControl([]),
+    VedioFile: new FormControl(null),
     date: new FormControl('', Validators.required)
 
   });
@@ -40,12 +45,16 @@ export class AddNewComponent {
   submit() {
 
     this.submitted = true;
-    console.log(this.addForm.getRawValue());
 
     if (this.addForm.invalid) {
       this.alert.toaster('بعض الحقول فارغة او هناك خطأ في الادخال', "error")
+      console.log(this.addForm.errors);
+      
       return;
     }
+
+    // 👇 تحقق من الوسائط
+
 
     this.add()
   }
@@ -62,8 +71,12 @@ export class AddNewComponent {
 
     if (this.imageFiles && this.imageFiles.length > 0) {
       this.imageFiles.forEach((img) => {
-        formData.append('interfaceImageFile', img);
+        formData.append('imageFile', img);
       });
+    }
+
+    if (this.videoFile instanceof File) {
+      formData.append('VedioFile', this.videoFile);
     }
 
     if (this.addForm.valid) {
@@ -71,6 +84,9 @@ export class AddNewComponent {
         next: (res) => {
           this.addForm.reset()
           this.alert.toaster("تمت اضافة الخدمة بنجاح", 'success')
+          this.submitted = false
+          console.log(res);
+
         },
         error: () => {
           this.alert.toaster('حدث خطأ أثناء التحديث', "error");
@@ -84,10 +100,6 @@ export class AddNewComponent {
 
 
 
-
-
-
-
   // ====================== اضافة الصور والفيديوهات
 
 
@@ -98,6 +110,27 @@ export class AddNewComponent {
     for (let i = 0; i < files.length; i++) {
       this.imageFiles.push(files[i]);
     }
+
+    console.log(this.imageFiles);
+    
   }
 
+  onVideoSelected(event: any) {
+    const file = event.target.files[0];
+    this.videoFile = file || null;
+  }
+
+ toggleToaddImg() {
+  this.addImg = true;
+  this.addVideo = false;
+  this.imageFiles = [];
+
+}
+
+toggleToaddVideo() {
+  this.addImg = false;
+  this.addVideo = true;
+  this.imageFiles = [];
+
+}
 }

@@ -51,13 +51,45 @@
 
 
             <!-- ==================  صورة الخبر ================= -->
+             @if(addImg){
+
+                 <div class="col-6">
+                     <div class="mb-3">
+                         <label for="imageFile" class="form-label">صورة للخبر <span>*</span></label>
+                         <input type="file" class="form-control " id="imageFile"
+                             [class.invalid]="(submitted && addForm.get('imageFile')?.invalid)" accept="image/*"
+                             (change)="onImagesSelected($event)" >
+                     </div>
+                 </div>
+             }
+             @if(addVideo){
+
+                 <div class="col-6">
+                     <div class="mb-3">
+                         <label for="vedioFile" class="form-label">فيديو للخبر <span>*</span></label>
+                         <input type="file" class="form-control " id="vedioFile"
+                             [class.invalid]="(submitted && addForm.get('VedioFile')?.invalid)" accept="video/*"
+                             (change)="onVideoSelected($event)" formControlName="VedioFile">
+                     </div>
+                 </div>
+             }
 
             <div class="col-6">
-                <div class="mb-3">
-                    <label for="interfaceImageFile" class="form-label">صورة للخبر <span>*</span></label>
-                    <input type="file" class="form-control " id="interfaceImageFile"
-                        [class.invalid]="(submitted && addForm.get('interfaceImageFile')?.invalid)" accept="image/*"
-                        (change)="onImagesSelected($event)" formControlName="interfaceImageFile">
+                <div class="midea">
+                    @if(addVideo){
+
+                        <div class="img" (click)="toggleToaddImg()">
+                            <img src="assets/image.png" >
+                            <span>اضافة صورة</span>
+                        </div>
+                    }
+
+                    @if(addImg){
+                        <div class="img" (click)="toggleToaddVideo()">
+                            <img src="assets/video-marketing.png" alt="">
+                            <span>اضافة فيديو</span>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
